@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="content-language" content="zh-CN" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+
+	<title>Document</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+			list-style:none;
+		}
+		body {
+			margin: 0;
+		}
+		ul {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}	
+		.wrap {
+			width: 100vw;
+			height: 100px;
+			overflow: hidden;
+		}
+		.select {
+			position: absolute;
+			top: 80px;
+			left: 0;
+			box-sizing: border-box;
+			width: 100vw;
+			height: 40px;
+			border: 1px solid #000;
+		}
+		.list {
+			margin-top: 80px;
+		}
+		.list li {
+			font: 20px/40px "宋体";
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<ul class="list">
+		<li class="list-item">11</li>
+		<li class="list-item">22</li>
+		<li class="list-item">33</li>
+		<li class="list-item">44</li>
+		<li class="list-item">55</li>
+		<li class="list-item">66</li>
+		<li class="list-item">77</li>
+		<li class="list-item">88</li>
+	</ul>
+	<div class="select"></div>
+	<div class="txt"></div>
+</body>
+</html>
+<script src="js/bscroll.js"></script>
+<script>
+	let wrapper=document.querySelector('.wrapper')
+	;
+	let list=document.querySelectorAll('.list-item');
+	let txt=document.querySelector('.txt');
+
+	let bscroll=new BScroll(wrapper,{
+		bounce:false,
+		wheel: {
+			selectedIndex: 3,
+			adjustTime: 400,
+			rotate:30,
+			wheelWrapperClass: 'list',
+  			wheelItemClass: 'list-item'
+		}
+	})
+	txt.innerText=list[bscroll.selectedIndex].innerText;
+	bscroll.on('scrollEnd',function(){
+		txt.innerText=list[bscroll.selectedIndex].innerText;
+	})
+</script>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="content-language" content="zh-CN" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+
+	<title>Document</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+		}
+		.wrapper{
+			overflow: hidden;
+			width:100%;
+			height:100vh;
+			background:#f6f6f6;
+		}
+		.list{
+			position:relative;
+		}
+		.list li{
+			font-size:20px;
+			line-height:30px;
+			color:#333;
+			border-bottom:1px solid #eee;
+			padding:0 20px;
+			background: #fff;
+		}
+		.pullUp:after{
+			content:'正在加载更多内容';
+			text-align: center;
+			display: block;
+			font-size:12px;
+			line-height:30px;
+		}
+		.pullDown:before{
+			content:'正在刷新';
+			text-align: center;
+			display: block;
+			font-size:12px;
+			line-height:30px;
+			position: absolute;
+			top: -42px;
+			width:100%;
+		}
+		
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<ul class="list">
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>7</li>
+			<li>8</li>
+			<li>9</li>
+			<li>10</li>
+			<li>11</li>
+			<li>12</li>
+			<li>13</li>
+			<li>14</li>
+			<li>15</li>
+			<li>16</li>
+			<li>17</li>
+			<li>18</li>
+			<li>19</li>
+			<li>20</li>
+		</ul>
+	</div>
+</body>
+</html>
+<script src="js/bscroll.js"></script>
+<script>
+	let wrapper=document.querySelector('.wrapper');
+	let list=document.querySelector('.list');
+	let bscroll=new BScroll(wrapper,{
+		pullUpLoad:{
+			threshold:50  //距离底部50px执行下拉加载
+		},
+		pullDownRefresh:{
+			threshold:-50,
+			stop:50
+		}
+	})	
+
+	//上滑加载
+	bscroll.on('pullingUp',function(){
+		list.classList.add('pullUp');
+		setTimeout(function(){
+			let inner='';
+			for(var i=0;i<10;i++){
+				inner+='<li>我是加载的第' +i+ '条数据</li>';
+			}
+			list.innerHTML+=inner;
+
+			bscroll.finishPullUp(); //上拉加载完成
+			// bscroll.closePullUp();  //关闭上拉加载
+			// bscroll.openPullUp();  打开上拉加载
+			bscroll.refresh();   //重新计算 better-scroll，当 DOM 结构发生变化的时候务必要调用确保滚动的效果正常。
+			list.classList.remove('pullUp');
+		},2000);
+		
+		
+	})
+
+	//下拉刷新
+	bscroll.on('pullingDown',function(){
+		list.classList.add('pullDown');
+		setTimeout(function(){
+			let inner='';
+			for(var i=0;i<10;i++){
+				inner+='<li>我是加载的第' +i+ '条数据</li>';
+			}
+			list.innerHTML=inner+list.innerHTML;
+
+			bscroll.finishPullDown(); //下拉刷新完成
+			// bscroll.closePullDown();  //关闭下拉刷新
+			// bscroll.openPullDown();  打开下拉刷新
+			bscroll.refresh();   //重新计算 better-scroll，当 DOM 结构发生变化的时候务必要调用确保滚动的效果正常。
+			list.classList.remove('pullDown');
+		},2000);
+		
+		
+	})
+</script>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="content-language" content="zh-CN" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+
+	<title>Document</title>
+	<style>
+		*{
+			margin:0;
+			padding:0;
+			list-style:none;
+		}
+		.wrapper{
+			overflow: hidden;
+			width:100%;
+			height:100vh;
+			background:#f6f6f6;
+		}
+		.list{
+			overflow: hidden;
+			width:600vw;
+		}
+		.list li{
+			border:1px solid #ccc;
+			width:100vw;
+			box-sizing:border-box;
+			float:left;
+		}
+		img{
+			width:100%;
+			height:auto;
+			display: block;
+		}
+		nav{
+			text-align: center;
+		}
+		nav a{
+			text-decoration:none;
+			font-size:14px;
+			transition:all 0.5s;
+			line-height:24px;
+			color:#454545;
+		}
+		nav a.active{
+			color:red;
+			font-weight:bold;
+		}
+	</style>
+</head>
+<body>
+	<div class="wrapper">
+		<ul class="list">
+			<li>
+				<img src="images/1.jpg"  alt="">
+			</li>
+			<li>
+				<img src="images/2.jpg"  alt="">
+			</li>
+			<li>
+				<img src="images/3.jpg"  alt="">
+			</li>
+			<li>
+				<img src="images/4.jpg"  alt="">
+			</li>
+		</ul>
+		<nav>
+			<a href="javascript" class="active">1</a>
+			<a href="javascript">2</a>
+			<a href="javascript">3</a>
+			<a href="javascript">4</a>
+		</nav>
+	</div>
+</body>
+</html>
+<script src="js/bscroll.js"></script>
+<script>
+	let wrapper=document.querySelector('.wrapper')
+	;
+	let list=document.querySelector('.list');
+	let navs=document.querySelectorAll('nav a');
+
+	let bscroll=new BScroll(wrapper,{
+		scrollY:false,
+		scrollX:true,
+		momentum:false,
+		snap:{
+			loop:true,
+			threshold:0.1
+		}
+	})
+	list.style.width=list.children.length+'00vw'
+	bscroll.on('scrollEnd',function(){
+		// nav.children[bscroll.currentPage.pageX].className='active'
+		navs.forEach(item=>{
+			item.classList.remove('active');
+		})
+		// console.log(bscroll.getCurrentPage().pageX)
+		navs[bscroll.getCurrentPage().pageX].classList.add('active');
+		// console.log(bscroll.currentPage.pageX)
+	})
+
+	setInterval(function(){
+		bscroll.next();
+	},3000)
+</script>
